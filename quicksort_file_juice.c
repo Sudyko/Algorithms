@@ -41,31 +41,32 @@ int main(int argc, char* argv[]) {
 	if (!infile || !outfile) return 2;
 	char tmp[BUF] = "";
 	int* num_str = NULL;
-
 	int count = atoi(fgets(tmp, BUF, infile));
+	
 	for (int i = 0; i < BUF; ++i) {
 		if (tmp[i] < '0' || tmp[i] > '9') {
-			if (tmp[0] == '\r') return 3;
-			if (tmp[i] == '\r' || tmp[i] == '\n')
+			if (tmp[i] == '\r' && tmp[0] != '\r')
 				break;
 			else return 3;
 		}
 	}
 	if (count < 0) return 3;
 	fputs(tmp, outfile);
+	
 	num_str = (int*)malloc(count * sizeof(int));
 	char** str = (char**)malloc(sizeof(char*));
 	for (int i = 0; i < count; ++i) {
 		str[i] = (char*)malloc(sizeof(char) * BUF);
 		fgets(str[i], BUF, infile);
 
-		for (int j = 0; j < BUF; ++j) {
-			if (str[i][j] >= '0' && str[i][j] <= '9' || str[i][j] == ' ') {
-				if (str[i][j] == ' ') {
-					break;
-				}
+		for (int j = 0; j < BUF; ++j) {		
+			if (str[i][j] == ' ' && str[i][0] != ' ') {
+				break;
 			}
-			else return 3;
+			else if (str[i][j] < '0' || str[i][j] > '9' || str[i][j] == '\0' ||
+				str[i][0] == '0' || str[i][0] == '\r') {
+				return 3;
+			}
 		}
 		num_str[i] = atoi(str[i]);
 		str = (char**)realloc(str, sizeof(char*) * (i + 2));
