@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void Merge(int arr[], int start, int mid, int end) {
+void __fastcall Merge(int arr[], int start, int mid, int end) {
     int* res_arr = NULL;
     res_arr = (int*)malloc((end-start) * sizeof(int));
 
@@ -34,7 +34,7 @@ void Merge(int arr[], int start, int mid, int end) {
 	/* Troubles with freeing memory */
 }
 
-void MergeSort(int arr[], int p, int r) {
+void __fastcall MergeSort(int arr[], int p, int r) {
     if (p < r) {
         int q = (p + r) / 2;
         MergeSort(arr, p, q);
